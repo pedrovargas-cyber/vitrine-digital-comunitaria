@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel do Administrador — Vitrine Digital Comunitária</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="topo">
+    <h1><a href="/index.html">🧺 Painel da Associação</a></h1>
+    <nav id="nav-topo"></nav>
+  </header>
+
+  <div id="acesso-negado" class="form-box" style="display:none;text-align:center;">
+    <h2>Acesso restrito</h2>
+    <p>Esta área é exclusiva para administradores da associação.</p>
+    <a class="btn btn-primario" href="/index.html">Voltar ao catálogo</a>
+  </div>
+
+  <div class="container" id="painel" style="display:none;">
+    <div class="tabs">
+      <button class="tab-btn ativo" data-tab="resumo">Resumo</button>
+      <button class="tab-btn" data-tab="feirantes">Feirantes</button>
+      <button class="tab-btn" data-tab="produtos">Produtos</button>
+      <button class="tab-btn" data-tab="categorias">Categorias</button>
+      <button class="tab-btn" data-tab="avaliacoes">Avaliações</button>
+    </div>
+
+    <!-- RESUMO -->
+    <section id="tab-resumo" class="aba">
+      <div id="cards-resumo" class="cards-resumo"></div>
+      <h3>Últimas ações registradas</h3>
+      <table>
+        <thead><tr><th>Data</th><th>Usuário</th><th>Ação</th></tr></thead>
+        <tbody id="lista-log"></tbody>
+      </table>
+    </section>
+
+    <!-- FEIRANTES -->
+    <section id="tab-feirantes" class="aba" style="display:none;">
+      <div id="aviso-feirante" class="erro-msg"></div>
+      <form id="form-feirante" class="form-box form-painel" novalidate>
+        <h3 id="titulo-form-feirante">Novo feirante</h3>
+        <input type="hidden" id="feirante-id">
+        <label for="feirante-nome">Nome</label>
+        <input type="text" id="feirante-nome">
+        <label for="feirante-whatsapp">WhatsApp (DDD + 9 dígitos)</label>
+        <input type="text" id="feirante-whatsapp" placeholder="24999998888">
+        <label for="feirante-bairro">Bairro</label>
+        <input type="text" id="feirante-bairro">
+        <label for="feirante-foto">Foto (opcional, máx. 5MB)</label>
+        <input type="file" id="feirante-foto" accept="image/*">
+        <div class="linha-botoes">
+          <button type="submit" class="btn btn-primario">Salvar feirante</button>
+          <button type="button" class="btn btn-secundario" id="cancelar-feirante" style="display:none;">Cancelar edição</button>
+        </div>
+      </form>
+      <div class="tabela-rolagem">
+        <table>
+          <thead><tr><th>Nome</th><th>WhatsApp</th><th>Bairro</th><th>Produtos ativos</th><th>Status</th><th>Ações</th></tr></thead>
+          <tbody id="lista-feirantes"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- PRODUTOS -->
+    <section id="tab-produtos" class="aba" style="display:none;">
+      <div id="aviso-produto" class="erro-msg"></div>
+      <form id="form-produto" class="form-box form-painel" novalidate>
+        <h3 id="titulo-form-produto">Novo produto</h3>
+        <input type="hidden" id="produto-id">
+        <label for="produto-titulo">Título</label>
+        <input type="text" id="produto-titulo">
+        <label for="produto-descricao">Descrição</label>
+        <textarea id="produto-descricao" rows="2"></textarea>
+        <label for="produto-preco">Valor (R$)</label>
+        <input type="text" id="produto-preco" inputmode="decimal" placeholder="15,00">
+        <label for="produto-feirante">Feirante</label>
+        <select id="produto-feirante"></select>
+        <label for="produto-categoria">Categoria</label>
+        <select id="produto-categoria"></select>
+        <label for="produto-foto">Foto (máx. 5MB)</label>
+        <input type="file" id="produto-foto" accept="image/*">
+        <div class="linha-botoes">
+          <button type="submit" class="btn btn-primario">Publicar produto</button>
+          <button type="button" class="btn btn-secundario" id="cancelar-produto" style="display:none;">Cancelar edição</button>
+        </div>
+      </form>
+      <div class="tabela-rolagem">
+        <table>
+          <thead><tr><th>Título</th><th>Feirante</th><th>Categoria</th><th>Valor</th><th>Status</th><th>Ações</th></tr></thead>
+          <tbody id="lista-produtos"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CATEGORIAS -->
+    <section id="tab-categorias" class="aba" style="display:none;">
+      <div id="aviso-categoria" class="erro-msg"></div>
+      <form id="form-categoria" class="form-box form-painel" novalidate>
+        <h3>Nova categoria</h3>
+        <label for="categoria-nome">Nome</label>
+        <input type="text" id="categoria-nome" maxlength="40">
+        <label for="categoria-descricao">Descrição</label>
+        <input type="text" id="categoria-descricao" maxlength="120">
+        <button type="submit" class="btn btn-primario" style="width:100%;">Criar categoria</button>
+      </form>
+      <table>
+        <thead><tr><th>Nome</th><th>Descrição</th><th>Produtos</th><th>Ações</th></tr></thead>
+        <tbody id="lista-categorias"></tbody>
+      </table>
+    </section>
+
+    <!-- AVALIAÇÕES -->
+    <section id="tab-avaliacoes" class="aba" style="display:none;">
+      <div id="aviso-avaliacao" class="erro-msg"></div>
+      <p class="subtitulo">Modere comentários ofensivos ou falsos. A exclusão atualiza a média exibida no catálogo.</p>
+      <div class="tabela-rolagem">
+        <table>
+          <thead><tr><th>Data</th><th>Autor</th><th>Item avaliado</th><th>Nota</th><th>Comentário</th><th>Ações</th></tr></thead>
+          <tbody id="lista-avaliacoes"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script src="/js/comum.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

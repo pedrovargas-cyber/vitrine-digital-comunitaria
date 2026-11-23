@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vitrine Digital Comunitária</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="topo">
+    <h1><a href="/index.html">🧺 Vitrine Digital Comunitária</a></h1>
+    <nav id="nav-topo"></nav>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h2>Produtos e serviços dos feirantes do nosso bairro</h2>
+      <p>Encontre, avalie e encomende direto pelo WhatsApp de quem produz.</p>
+      <form id="form-busca" class="busca" role="search">
+        <input type="search" id="busca" placeholder="Buscar produto ou feirante (ex: bolo, Maria)" aria-label="Buscar">
+        <button class="btn btn-primario" type="submit">Buscar</button>
+      </form>
+    </div>
+  </section>
+
+  <div class="container">
+    <div id="filtro-categorias" class="chips" aria-label="Filtrar por categoria"></div>
+    <p id="contador" class="contador"></p>
+    <div id="mensagem-vazia" class="painel-vazio" style="display:none;"></div>
+    <div id="grid-produtos" class="grid-produtos"></div>
+  </div>
+
+  <footer class="rodape">Vitrine Digital Comunitária · Projeto de Extensão Universitária</footer>
+
+  <script src="/js/comum.js"></script>
+  <script src="/js/catalogo.js"></script>
+</body>
+</html>

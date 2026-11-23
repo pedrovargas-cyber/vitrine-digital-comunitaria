@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Criar conta — Vitrine Digital Comunitária</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="topo">
+    <h1><a href="/index.html">🧺 Vitrine Digital Comunitária</a></h1>
+    <nav id="nav-topo"></nav>
+  </header>
+
+  <div class="form-box">
+    <h2>Criar conta de morador</h2>
+    <p class="subtitulo">Com uma conta você pode avaliar produtos e feirantes da feira.</p>
+    <div id="aviso" class="erro-msg"></div>
+    <form id="form-cadastro" novalidate>
+      <label for="nome">Nome</label>
+      <input type="text" id="nome" autocomplete="name" maxlength="80">
+      <label for="email">E-mail</label>
+      <input type="email" id="email" autocomplete="email">
+      <label for="senha">Senha (mínimo 6 caracteres)</label>
+      <input type="password" id="senha" autocomplete="new-password">
+      <label for="confirmacao">Confirmar senha</label>
+      <input type="password" id="confirmacao" autocomplete="new-password">
+      <button type="submit" class="btn btn-primario" style="width:100%;">Criar conta</button>
+    </form>
+    <p class="rodape-form">Já tem conta? <a href="/login.html">Entrar</a></p>
+  </div>
+
+  <script src="/js/comum.js"></script>
+  <script>
+    document.getElementById('form-cadastro').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const corpo = {
+        nome: document.getElementById('nome').value,
+        email: document.getElementById('email').value,
+        senha: document.getElementById('senha').value,
+        confirmacao: document.getElementById('confirmacao').value,
+      };
+      try {
+        const resp = await fetch('/api/auth/cadastro', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(corpo),
+        });
+        const dados = await resp.json();
+        if (!resp.ok) return mostrarAviso('aviso', dados.erro || 'Não foi possível criar a conta.', 'erro', 0);
+        mostrarAviso('aviso', dados.mensagem + ' Redirecionando para o catálogo...', 'sucesso', 0);
+        setTimeout(() => (window.location.href = '/index.html'), 1500);
+      } catch {
+        mostrarAviso('aviso', 'Erro de conexão com o servidor. Tente novamente.', 'erro', 0);
+      }
+    });
+    iniciarSessao();
+  </script>
+</body>
+</html>

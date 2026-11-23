@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Entrar — Vitrine Digital Comunitária</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="topo">
+    <h1><a href="/index.html">🧺 Vitrine Digital Comunitária</a></h1>
+    <nav id="nav-topo"></nav>
+  </header>
+
+  <div class="form-box">
+    <h2>Entrar</h2>
+    <p class="subtitulo">Moradores entram para avaliar; a coordenação da associação acessa o painel.</p>
+    <div id="erro" class="erro-msg"></div>
+    <form id="form-login" novalidate>
+      <label for="email">E-mail</label>
+      <input type="email" id="email" autocomplete="username" placeholder="seu@email.com">
+      <label for="senha">Senha</label>
+      <input type="password" id="senha" autocomplete="current-password" placeholder="••••••••">
+      <button type="submit" class="btn btn-primario" style="width:100%;">Entrar</button>
+    </form>
+    <p class="rodape-form">Ainda não tem conta? <a href="/cadastro.html">Criar conta de morador</a></p>
+  </div>
+
+  <script src="/js/comum.js"></script>
+  <script src="/js/login.js"></script>
+</body>
+</html>

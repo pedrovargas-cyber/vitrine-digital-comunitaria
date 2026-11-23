@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minha conta — Vitrine Digital Comunitária</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="topo">
+    <h1><a href="/index.html">🧺 Vitrine Digital Comunitária</a></h1>
+    <nav id="nav-topo"></nav>
+  </header>
+
+  <div class="container">
+    <div class="cartao">
+      <h2>Minha conta</h2>
+      <p id="dados-conta"></p>
+    </div>
+    <div id="aviso" class="erro-msg"></div>
+    <h3>Minhas avaliações</h3>
+    <div id="minhas-avaliacoes"></div>
+  </div>
+
+  <script src="/js/comum.js"></script>
+  <script>
+    async function carregarMinhas() {
+      const box = document.getElementById('minhas-avaliacoes');
+      const resp = await fetch('/api/avaliacoes/minhas');
+      if (resp.status === 401) return (location.href = '/login.html?voltar=/conta.html');
+      const lista = await resp.json();
+      box.innerHTML = lista.length
+        ? lista.map((a) => `<article class="cartao comentario-conta">
+            <div><span class="tag-categoria">${a.tipo}</span> <strong>${escapeHtml(a.alvo)}</strong>
+            <span class="estrelas">${'★'.repeat(a.nota)}${'☆'.repeat(5 - a.nota)}</span>
+            <small>${escapeHtml(formatarData(a.dataHora))}</small></div>
+            <p>${escapeHtml(a.comentario)}</p>
+            <button class="btn btn-perigo" data-excluir="${a.id}">Excluir avaliação</button>
+          </article>`).join('')
+        : '<p class="painel-vazio">Você ainda não avaliou nenhum produto ou feirante. <a href="/index.html">Ir para o catálogo</a></p>';
+    }
+
+    document.getElementById('minhas-avaliacoes').addEventListener('click', async (e) => {
+      const id = e.target.dataset.excluir;
+      if (!id || !confirm('Excluir esta avaliação?')) return;
+      const resp = await fetch('/api/avaliacoes/' + id, { method: 'DELETE' });
+      const dados = await resp.json();
+      mostrarAviso('aviso', resp.ok ? dados.mensagem : dados.erro, resp.ok ? 'sucesso' : 'erro');
+      carregarMinhas();
+    });
+
+    (async function () {
+      const u = await iniciarSessao();
+      if (!u) return (location.href = '/login.html?voltar=/conta.html');
+      const perfil = u.papel === 'admin' ? 'Administrador' : 'Usuário comum (morador)';
+      document.getElementById('dados-conta').innerHTML =
+        `<strong>${escapeHtml(u.nome)}</strong><br>${escapeHtml(u.email)}<br>Perfil: ${perfil}`;
+      carregarMinhas();
+    })();
+  </script>
+</body>
+</html>
